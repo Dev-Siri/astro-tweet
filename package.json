@@ -2,7 +2,7 @@
   "name": "astro-tweet-monorepo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "packages/astro-tweet/src/Tweet.astro",
   "scripts": {
     "check": "pnpm -r prepublishOnly && pnpm -r check",
     "format": "pnpm -r format",
