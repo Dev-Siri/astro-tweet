@@ -1,5 +1,4 @@
 ---
-import format from "date-fns/format/index.js";
 import type { EnrichedTweet } from "../utils.js";
 import styles from "./tweet-info-created-at.module.css";
 
@@ -8,6 +7,23 @@ interface Props {
 }
 const { tweet } = Astro.props;
 const createdAt = new Date(tweet.created_at);
+
+function format(date: Date) {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const amPm = hours >= 12 ? "PM" : "AM";
+
+  const formattedTime =
+    (hours % 12 || 12) + ":" + (minutes < 10 ? "0" : "") + minutes + " " + amPm;
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+
+  return `${formattedDate} · ${formattedTime}`;
+}
 ---
 
 <a
@@ -15,9 +31,9 @@ const createdAt = new Date(tweet.created_at);
   href={tweet.url}
   target="_blank"
   rel="noopener noreferrer"
-  aria-label={format(createdAt!, "h:mm a · MMM d, y")}
+  aria-label={format(createdAt!)}
 >
   <time datetime={createdAt?.toISOString()}>
-    {format(createdAt!, "h:mm a · MMM d, y")}
+    {format(createdAt!)}
   </time>
 </a>
